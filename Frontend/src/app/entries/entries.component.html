@@ -1,0 +1,100 @@
+
+<div class="container wrapper">
+  <div class="header">
+    <button (click)="goToEntryForm()" class="btn btn-primary">
+      <i class="fa fa-plus-circle"></i> Add New
+    </button>
+    <div class="page-size">
+      <label>Show: </label>
+      <select
+        class="form-control"
+        name="page-size"
+        [(ngModel)]="pageSize"
+        (change)="goToPage(1)"
+      >
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+        <option>20</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>User</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Categories</th>
+          <th>Duration</th>
+          <th>Energy Level</th>
+          <th>Stress Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of pagedEntries">
+          <td>
+            <ul class="action-list">
+              <li>
+                <a (click)="updateEntry(entry)" class="btn btn-primary"
+                  ><i class="fa fa-pencil-alt"></i
+                ></a>
+              </li>
+              <li>
+                <a (click)="deleteEntry(entry.id)" class="btn btn-danger"
+                  ><i class="fa fa-times"></i
+                ></a>
+              </li>
+            </ul>
+          </td>
+          <td>{{ entry.user?.username }}</td>
+          <td>{{ entry.description }}</td>
+          <td>{{ entry.date | date }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let category of entry.categories">
+                {{ category.name }}
+              </li>
+            </ul>
+          </td>
+          <td>{{ entry.duration }}</td>
+          <td>{{ entry.energyLevel }}</td>
+          <td>{{ entry.stressLevel }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer">
+    <div class="entries-info">
+      showing
+      <b>{{ (currentPage - 1) * pageSize + 1 }}</b> to
+      <b>{{ (currentPage - 1) * pageSize + pagedEntries.length }}</b> out of
+      <b>{{ entries.length }}</b> entries
+    </div>
+    <div class="pagination-container">
+      <ul class="pagination hidden-xs pull-right pagination-sm">
+        <li [class.disabled]="currentPage == 1">
+          <a (click)="goToPage(1)">«</a>
+        </li>
+        <li [class.disabled]="currentPage == 1">
+          <a (click)="goToPage(currentPage - 1)">‹</a>
+        </li>
+        <li
+          *ngFor="let page of pages"
+          [class.active]="currentPage == page"
+        >     
+        <a (click)="goToPage(page)">{{ page }}</a>
+    </li>
+    <li [class.disabled]="currentPage == totalPages">
+      <a (click)="goToPage(currentPage + 1)">›</a>
+    </li>
+    <li [class.disabled]="currentPage == totalPages">
+      <a (click)="goToPage(totalPages)">»</a>
+    </li>
+  </ul>
+</div>
+</div>
+</div>
+

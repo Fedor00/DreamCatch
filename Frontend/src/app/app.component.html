@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <a href="#" class="navbar-brand">DreamCatch</a>
+
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item" *ngIf="!isLoggedIn">
+      <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+    </li>
+    <li class="nav-item" *ngIf="!isLoggedIn">
+      <a href="/login" class="nav-link" routerLink="login" (click)="login()">Login</a>
+    </li>
+    <li class="nav-item" *ngIf="isLoggedIn">
+      <a href="/login" class="nav-link" (click)="logout()">Log Out</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

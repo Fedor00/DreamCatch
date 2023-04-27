@@ -1,0 +1,61 @@
+<div class="wrapper">
+  <div class="button-container">
+    <button class="btn-primary" (click)="showChooseCategoryForChart()">Chart</button>
+    <button class="btn-primary" (click)="goToEntries()">My Dreams</button>
+  </div>
+
+  <div *ngIf="showChooseCategory" class="chart-selector">
+    <label for="category">Category</label>
+    <ng-select
+      [items]="categories"
+      bindLabel="name"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [(ngModel)]="chartDataOptions.categories"
+      name="category"
+      dropdownPosition="auto"
+      required
+    >
+    </ng-select>
+    <div class="date-selection">
+      <mat-radio-group [(ngModel)]="selectionType">
+        <mat-radio-button value="week">Week</mat-radio-button>
+        <mat-radio-button value="month">Month</mat-radio-button>
+      </mat-radio-group>
+    
+      <div *ngIf="selectionType === 'week'">
+        <mat-form-field>
+          <mat-label>Week of the year</mat-label>
+          <mat-select [(value)]="chartDataOptions.value">
+            <mat-option *ngFor="let week of weeks" [value]="week">{{week}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    
+      <div *ngIf="selectionType === 'month'">
+        <mat-form-field>
+          <mat-label>Month of the year</mat-label>
+          <mat-select [(value)]="chartDataOptions.value" >
+            <mat-option *ngFor="let month of months" [value]="month">{{month}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    
+    <button class="btn-primary" (click)="getChartData(false)">Show Chart</button>
+  </div>
+  
+  <div *ngIf="!showChooseCategory" class="chart" >
+    <canvas
+      baseChart
+      [datasets]="chartData"
+      [labels]="labels"
+      [options]="chartOptions"
+      [legend]="true"
+      [type]="chartType"
+      [height]="500"
+    ></canvas>
+  </div>
+</div>
+<!-- Updated section to select a week or month of the year -->
+

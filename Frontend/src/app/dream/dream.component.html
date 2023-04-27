@@ -1,0 +1,133 @@
+<div class="entry-form-container wrapper">
+  <h2 class="form-title">Add/Update Entry</h2>
+  <form (ngSubmit)="entryForm.valid && addEntry()" #entryForm="ngForm">
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        class="form-control"
+        name="description"
+        [(ngModel)]="entry.description"
+        required
+      ></textarea>
+      <div class="form-error" *ngIf="entryForm.submitted && !entry.description">
+        Please enter a description for the entry.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="duration">Duration</label>
+      <input
+        type="number"
+        class="form-control"
+        name="duration"
+        [(ngModel)]="entry.duration"
+        min="1"
+        max="5"
+        required
+      />
+      <div class="form-error" *ngIf="entryForm.submitted && entry.duration < 1">
+        Please enter the duration of the entry.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="energyLevel">Energy Level</label>
+      <input
+        type="number"
+        class="form-control"
+        name="energyLevel"
+        [(ngModel)]="entry.energyLevel"
+        min="1"
+        max="5"
+        required
+      />
+      <div
+        class="form-error"
+        *ngIf="entryForm.submitted && entry.energyLevel < 1"
+      >
+        Please enter the energy level of the entry.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="stressLevel">Stress Level</label>
+      <input
+        type="number"
+        class="form-control"
+        name="stressLevel"
+        [(ngModel)]="entry.stressLevel"
+        min="1"
+        max="5"
+        required
+      />
+      <div
+        class="form-error"
+        *ngIf="entryForm.submitted && entry.stressLevel < 1"
+      >
+        Please enter the stress level of the entry.
+      </div>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Select The Day</mat-label>
+
+        <input
+          required="true"
+          matInput
+          [matDatepicker]="startPicker"
+          placeholder="Start date"
+          name="date"
+          [(ngModel)]="entry.date"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="startPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <div class="form-error" *ngIf="entryForm.submitted && !entry.date">
+        Please select a date.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <ng-select
+        [items]="categories"
+        bindLabel="name"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [(ngModel)]="entry.categories"
+        name="category"
+        dropdownPosition="auto"
+        required
+      >
+      </ng-select>
+      <div class="new-category-container">
+        <button type="button" class="btn-primary" (click)="showCategoryForm()">
+          Create Category
+        </button>
+      </div>
+      <div
+        class="form-error"
+        *ngIf="entryForm.submitted && entry.categories.length < 1"
+      >
+        Please select at least one category.
+      </div>
+      <div *ngIf="showCategoryInputText">
+        <form (submit)="addCategory()">
+          <label for="categoryInput">Enter new category:</label>
+          <input
+            type="text"
+            id="categoryInput"
+            name="categoryInput"
+            [(ngModel)]="newCategoryInput"
+          />
+          <button type="submit" class="btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn-primary">Add/Update Entry</button>
+    </div>
+    <div class="error-entry" *ngIf="entryForm.submitted && failedToAddEntry">
+      {{ _errorMessage }}
+    </div>
+  </form>
+</div>
